@@ -2,35 +2,47 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 class Question extends React.Component {
-  render() {
-    return (
-      <View>
-        <Text>{this.props.question.text}</Text>
-      </View>
-
-    );
-  }
-}
-
-class App extends React.Component {
   constructor(props) {
-
-    const questions = [
+    super(props);
+    this.questions = [
       {text: "What is your name?"},
       {text: "What color is the sky?"}
-    ] 
-    super(props);
-
+    ];
+    this.nCurrentQuestion = 0;
     this.state = {
-
-      question: questions[1]
+      currentQuestion: this.questions[this.nCurrentQuestion]
     };
   }
   render() {
     return (
+      <View>
+        <Text>{this.state.currentQuestion.text}</Text>
+        <button onClick={this.handleNextButtonClicked.bind(this)}>Next</button>
+      </View>
+
+    );
+  }
+  handleNextButtonClicked() {
+    if(this.nCurrentQuestion < this.questions.length - 1){
+      this.nCurrentQuestion += 1;
+      
+      this.setState({
+
+        currentQuestion: this.questions[this.nCurrentQuestion]
+
+      });
+
+    }
+  }
+
+}
+
+class App extends React.Component {
+  render() {
+    return (
       <View style={styles.container}>
         <Text>Open up App.js to start working on your app!</Text>
-        <Question question={this.state.question} />
+        <Question />
       </View>
     );
   }
